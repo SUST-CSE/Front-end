@@ -1,8 +1,11 @@
 nav {
-  padding: 0% 5%;
+  padding: 0% 1%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: transparent;
+  min-height: 80px;
+  
 }
 
 nav img {
@@ -31,7 +34,7 @@ nav img {
   content: "";
   width: 0%;
   height: 2px;
-  background: #f44336;
+  background: #dc143c;
   display: block;
   margin: auto;
   transition: 0.5s;
@@ -41,11 +44,19 @@ nav img {
   width: 100%;
 }
 
+.dark-text .nav-links ul li a {
+  color: #000;
+}
+
+.dark-text .fas {
+  color: #000 !important;
+}
+
 nav .fas {
   display: none;
 }
 
-/* Responsive style for smaller screens */
+
 @media (max-width: 768px) {
   .nav-links ul li {
     display: block;
@@ -53,7 +64,8 @@ nav .fas {
 
   .nav-links {
     position: fixed;
-    background: #f44336;
+    background: #000;
+    border-left: 2px solid #dc143c;
     height: 100vh;
     width: 200px;
     top: 0;

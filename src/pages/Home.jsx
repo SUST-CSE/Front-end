@@ -4,12 +4,16 @@ import Facilities from "../components/Facilities/Facilities";
 import Cta from "../components/Cta/Cta";
 import Footer from "../components/Footer/Footer";
 import Dashboard from "../components/Dashboard/Dashboard";
+import NoticesSection from "../components/NoticesSection/NoticesSection";
+import NewsSection from "../components/NewsSection/NewsSection";
 
 const Home = () => {
   return (
     <>
       <Header />
-      <Dashboard />
+      {}
+      <NewsSection />
+      {}
       <Courses />
       <Facilities />
       <Cta />

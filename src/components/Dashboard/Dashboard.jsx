@@ -35,139 +35,120 @@ export default function Dashboard({ items = sampleNews, interval = 5000, onReadM
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  useEffect(() => {
-    startTimer();
-    return () => stopTimer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, paused]);
-
-  function startTimer() {
+  const startTimer = () => {
     stopTimer();
-    if (paused) return;
     if (progressRef.current) {
-      // reset
-      progressRef.current.style.transition = `none`;
-      progressRef.current.style.width = `0%`;
-  // force reflow to pick up reset width
-  void progressRef.current.offsetWidth;
-      progressRef.current.style.transition = `width ${interval}ms linear`;
-      progressRef.current.style.width = `100%`;
+      progressRef.current.style.transition = 'none';
+      progressRef.current.style.width = '0%';
+      setTimeout(() => {
+        if (progressRef.current) {
+          progressRef.current.style.transition = `width ${interval}ms linear`;
+          progressRef.current.style.width = '100%';
+        }
+      }, 50);
     }
     timerRef.current = setTimeout(() => {
-      const next = (index + 1) % items.length;
-      setIndex(next);
+      setIndex((prev) => (prev + 1) % items.length);
     }, interval);
-  }
+  };
 
-  function stopTimer() {
+  const stopTimer = () => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
-    if (progressRef.current) {
-      progressRef.current.style.transition = `none`;
-    }
-  }
-
-  function goTo(i) {
-    setIndex(i);
-  }
-
-  function handleReadNext(e, it) {
-    if (onReadMore) {
-      e.preventDefault();
-      onReadMore(it);
-      return;
-    }
-    // default: navigate to provided url if present
-    // allow normal anchor navigation by not preventing default
-  }
-
-  function handleMouseEnter() {
-    setPaused(true);
-    stopTimer();
-  }
-  function handleMouseLeave() {
-    setPaused(false);
-    startTimer();
-  }
-
-  function handleKey(e) {
-    if (e.key === "ArrowRight") {
-      setIndex((s) => (s + 1) % items.length);
-    } else if (e.key === "ArrowLeft") {
-      setIndex((s) => (s - 1 + items.length) % items.length);
-    }
-  }
-
-  function onTouchStart(e) {
-    touchStartX.current = e.touches[0].clientX;
-  }
-  function onTouchMove(e) {
-    touchEndX.current = e.touches[0].clientX;
-  }
-  function onTouchEnd() {
-    const delta = touchStartX.current - touchEndX.current;
-    if (Math.abs(delta) > 50) {
-      if (delta > 0) {
-        setIndex((s) => (s + 1) % items.length);
-      } else {
-        setIndex((s) => (s - 1 + items.length) % items.length);
-      }
-    }
-    touchStartX.current = 0;
-    touchEndX.current = 0;
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items.length]);
+    if (!paused) {
+      startTimer();
+    }
+    return () => stopTimer();
+  }, [index, paused, items.length, interval]);
+
+  const goTo = (i) => {
+    setIndex(i);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        setIndex((prev) => (prev + 1) % items.length);
+      } else {
+        setIndex((prev) => (prev - 1 + items.length) % items.length);
+      }
+    }
+  };
 
   return (
-    <section
+    <div
       className="dashboard"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <div className="slides">
-        {items.map((it, i) => (
-          <article
-            key={it.id || i}
+        {items.map((item, i) => (
+          <div
+            key={item.id}
             className={`slide ${i === index ? "active" : ""}`}
-            style={{ backgroundImage: `url(${it.image || ""})` }}
-            aria-hidden={i === index ? "false" : "true"}
+            style={{ backgroundImage: `url(${item.image})` }}
           >
             <div className="overlay" />
             <div className="content">
-              <h2>{it.title}</h2>
-              <p>{it.excerpt}</p>
-              <a href={it.url || `#/news/${it.id || i}`} onClick={(e) => handleReadNext(e, it)} className="read-more-btn">
-                Read next
-              </a>
+              <h2>{item.title}</h2>
+              <p>{item.excerpt}</p>
+              {onReadMore && (
+                <button
+                  className="read-more-btn"
+                  onClick={() => onReadMore(item)}
+                >
+                  Read More
+                </button>
+              )}
             </div>
-          </article>
+          </div>
         ))}
-        <div className="indicators">
-          {items.map((_, i) => (
-            <span key={i} className={`dot ${i === index ? "active" : ""}`} onClick={() => goTo(i)} />
-          ))}
-        </div>
-
-        <div className="progress-bar">
-          <div className="progress" ref={progressRef} />
-        </div>
       </div>
-    </section>
+
+      <div className="indicators">
+        {items.map((_, i) => (
+          <span
+            key={i}
+            className={`dot ${i === index ? "active" : ""}`}
+            onClick={() => goTo(i)}
+          />
+        ))}
+      </div>
+
+      <div className="progress-bar">
+        <div className="progress" ref={progressRef} />
+      </div>
+    </div>
   );
 }
 
 Dashboard.propTypes = {
-  items: PropTypes.array,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      excerpt: PropTypes.string,
+      image: PropTypes.string,
+      url: PropTypes.string,
+    })
+  ),
   interval: PropTypes.number,
   onReadMore: PropTypes.func,
 };
