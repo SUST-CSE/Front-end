@@ -5,6 +5,7 @@ import ContactComponent from "../components/ContactComponent/ContactComponent";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 import contactService from '../api/services/contactService';
+import './Contact.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -39,15 +40,17 @@ const Contact = () => {
   return (
     <>
       { }
-      <Subheader title="Contact Us" />
-      <ContactComponent
-        formData={formData}
-        setFormData={setFormData}
-        handleSubmit={handleSubmit}
-        submitting={submitting}
-        submitMessage={submitMessage}
-      />
-      <Location />
+      <Subheader header="If you have any queries, please contact us." backgroundImage="/images/banner2.jpg" />
+      <div className="contact-page">
+        <ContactComponent
+          formData={formData}
+          setFormData={setFormData}
+          handleSubmit={handleSubmit}
+          submitting={submitting}
+          submitMessage={submitMessage}
+        />
+        <Location />
+      </div>
       <Footer />
     </>
   );

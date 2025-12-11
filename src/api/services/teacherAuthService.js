@@ -39,6 +39,11 @@ const teacherAuthService = {
     approveTeacher: async (id) => {
         const response = await apiClient.patch(`/auth/teacher/${id}/approve`);
         return response.data;
+    },
+
+    createTeacher: async (data) => {
+        const response = await apiClient.post('/auth/teacher/create', data);
+        return response.data;
     }
 };
 

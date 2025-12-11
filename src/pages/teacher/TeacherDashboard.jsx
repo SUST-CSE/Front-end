@@ -5,10 +5,10 @@ import Footer from '../../components/Footer/Footer';
 import useStore from '../../zustand/store';
 import CreateNoticeModal from '../../components/teacher/CreateNoticeModal';
 import UploadResultsModal from '../../components/teacher/UploadResultsModal';
-import ViewFeedbackModal from '../../components/teacher/ViewFeedbackModal';
 import MyCoursesModal from '../../components/teacher/MyCoursesModal';
 import StudentsModal from '../../components/teacher/StudentsModal';
 import MyAdviseesModal from '../../components/teacher/MyAdviseesModal';
+import EnrollmentRequestsModal from '../../components/teacher/EnrollmentRequestsModal';
 import './Dashboard.css';
 
 const TeacherDashboard = () => {
@@ -27,11 +27,13 @@ const TeacherDashboard = () => {
                 </div>
 
                 <div className="dashboard-grid">
-                    <Link to="/teacher/profile" className="dashboard-card">
+
+
+                    <div className="dashboard-card" onClick={() => setActiveModal('enrollment-requests')}>
                         <div className="card-icon"></div>
-                        <h3>My Profile</h3>
-                        <p>View and update your profile</p>
-                    </Link>
+                        <h3>Enrollment Requests</h3>
+                        <p>Approve/reject student course requests</p>
+                    </div>
 
                     <div className="dashboard-card" onClick={() => setActiveModal('notice')}>
                         <div className="card-icon"></div>
@@ -45,12 +47,6 @@ const TeacherDashboard = () => {
                         <p>Upload student results</p>
                     </div>
 
-                    <div className="dashboard-card" onClick={() => setActiveModal('feedback')}>
-                        <div className="card-icon"></div>
-                        <h3>View Feedback</h3>
-                        <p>See course feedback from students</p>
-                    </div>
-
                     <div className="dashboard-card" onClick={() => setActiveModal('courses')}>
                         <div className="card-icon"></div>
                         <h3>My Courses</h3>
@@ -59,12 +55,12 @@ const TeacherDashboard = () => {
 
                     <div className="dashboard-card" onClick={() => setActiveModal('students')}>
                         <div className="card-icon"></div>
-                        <h3>Students</h3>
-                        <p>View student information</p>
+                        <h3>My Students</h3>
+                        <p>View students enrolled in your courses</p>
                     </div>
 
                     <div className="dashboard-card" onClick={() => setActiveModal('advisees')}>
-                        <div className="card-icon">‍</div>
+                        <div className="card-icon"></div>
                         <h3>My Advisees</h3>
                         <p>View assigned students</p>
                     </div>
@@ -72,10 +68,10 @@ const TeacherDashboard = () => {
             </div>
             <Footer />
 
-            {}
+            { }
+            <EnrollmentRequestsModal isOpen={activeModal === 'enrollment-requests'} onClose={closeModal} />
             <CreateNoticeModal isOpen={activeModal === 'notice'} onClose={closeModal} />
             <UploadResultsModal isOpen={activeModal === 'results'} onClose={closeModal} />
-            <ViewFeedbackModal isOpen={activeModal === 'feedback'} onClose={closeModal} />
             <MyCoursesModal isOpen={activeModal === 'courses'} onClose={closeModal} />
             <StudentsModal isOpen={activeModal === 'students'} onClose={closeModal} />
             <MyAdviseesModal isOpen={activeModal === 'advisees'} onClose={closeModal} />

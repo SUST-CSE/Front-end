@@ -83,20 +83,20 @@ const StudentProfile = () => {
         setUpdating(true);
 
         try {
-            let photoPath = formData.photo;
+            let photoUrl = formData.photo;
 
             if (photoFile) {
                 const uploadFormData = new FormData();
                 uploadFormData.append('image', photoFile);
-                const uploadResponse = await apiClient.post('/upload', uploadFormData, {
+                const uploadResponse = await apiClient.post('/upload/image', uploadFormData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
                 if (uploadResponse.data.success) {
-                    photoPath = uploadResponse.data.path;
+                    photoUrl = uploadResponse.data.data.url;
                 }
             }
 
-            const updatedData = { ...formData, photo: photoPath };
+            const updatedData = { ...formData, photo: photoUrl };
             const response = await studentAuthService.updateProfile(updatedData);
 
             if (response.success) {
@@ -115,6 +115,34 @@ const StudentProfile = () => {
     return (
         <div className="profile-page">
             <div className="profile-container">
+                <button
+                    onClick={() => navigate('/student/dashboard')}
+                    className="back-btn"
+                    style={{
+                        marginBottom: '20px',
+                        padding: '8px 16px',
+                        background: 'transparent',
+                        border: '1px solid #000',
+                        borderRadius: '0',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        transition: 'all 0.3s'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.target.style.background = '#000';
+                        e.target.style.color = '#fff';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.target.style.background = 'transparent';
+                        e.target.style.color = '#000';
+                    }}
+                >
+                    ← Back to Dashboard
+                </button>
                 <h2>My Profile</h2>
                 {message && <div className={`message ${message.includes('Error') ? 'error' : 'success'}`}>{message}</div>}
 

@@ -21,7 +21,7 @@ const UserMenu = () => {
 
     const getProfileLink = () => {
         if (!user) return '/';
-        const role = user.role?.toLowerCase();
+        const role = (user.role || user.userType)?.toLowerCase();
         if (role === 'admin' || role === 'superadmin') {
             return '/admin/profile';
         } else if (role === 'student') {
@@ -34,7 +34,7 @@ const UserMenu = () => {
 
     const getDashboardLink = () => {
         if (!user) return '/';
-        const role = user.role?.toLowerCase();
+        const role = (user.role || user.userType)?.toLowerCase();
         if (role === 'admin' || role === 'superadmin') {
             return '/admin/dashboard';
         } else if (role === 'student') {
@@ -47,7 +47,9 @@ const UserMenu = () => {
 
     const getRoleLabel = () => {
         if (!user) return '';
-        return user.role.charAt(0).toUpperCase() + user.role.slice(1);
+        const role = user.role || user.userType;
+        if (!role) return '';
+        return role.charAt(0).toUpperCase() + role.slice(1);
     };
 
     useEffect(() => {

@@ -13,10 +13,13 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState('faculty');
     const [showForm, setShowForm] = useState(false);
+    const [addAsTeacher, setAddAsTeacher] = useState(false);
     const [formData, setFormData] = useState({
+        employeeId: '',
         name: '',
         designation: '',
         email: '',
+        password: '',
         phone: '',
         department: 'CSE',
         officeRoom: '',
@@ -67,20 +70,23 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
                 await facultyService.updateFaculty(editingId, formData);
                 alert('Faculty updated successfully!');
             } else {
-                await facultyService.createFaculty(formData);
-                alert('Faculty created successfully!');
+                if (addAsTeacher) {
+                    await teacherAuthService.createTeacher(formData);
+                    alert('Teacher created successfully!');
+                } else {
+                    await facultyService.createFaculty(formData);
+                    alert('Faculty created successfully!');
+                }
             }
 
             resetForm();
             fetchFaculty();
         } catch (err) {
-            // Handle specific error messages
             let errorMessage = 'Failed to save faculty';
 
             if (err.response?.data?.message) {
                 errorMessage = err.response.data.message;
             } else if (err.response?.status === 400) {
-                // Check if it's a duplicate email error
                 if (err.response?.data?.error?.includes('E11000') || err.response?.data?.error?.includes('duplicate')) {
                     errorMessage = 'A faculty member with this email already exists. Please use a different email.';
                 } else if (err.response?.data?.error?.includes('email')) {
@@ -93,7 +99,7 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
             }
 
             setError(errorMessage);
-            alert(errorMessage); // Show popup message
+            alert(errorMessage);
         } finally {
             setSubmitting(false);
         }
@@ -136,9 +142,11 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
 
     const resetForm = () => {
         setFormData({
+            employeeId: '',
             name: '',
             designation: '',
             email: '',
+            password: '',
             phone: '',
             department: 'CSE',
             officeRoom: '',
@@ -146,6 +154,7 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
         });
         setEditingId(null);
         setShowForm(false);
+        setAddAsTeacher(false);
     };
 
     const facultyColumns = [
@@ -205,6 +214,50 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
 
                     {showForm && (
                         <form onSubmit={handleSubmit} className="admin-form">
+                            {!editingId && (
+                                <div className="form-group" style={{ marginBottom: '20px' }}>
+                                    <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                        <input
+                                            type="checkbox"
+                                            checked={addAsTeacher}
+                                            onChange={(e) => setAddAsTeacher(e.target.checked)}
+                                        />
+                                        Add as Teacher (with login credentials)
+                                    </label>
+                                    <small style={{ display: 'block', marginTop: '5px', color: '#666' }}>
+                                        {addAsTeacher
+                                            ? 'This will create a teacher account with login access and require approval.'
+                                            : 'This will create a faculty profile for display only (no login).'}
+                                    </small>
+                                </div>
+                            )}
+
+                            {addAsTeacher && !editingId && (
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label>Employee ID *</label>
+                                        <input
+                                            type="text"
+                                            value={formData.employeeId}
+                                            onChange={(e) => setFormData({ ...formData, employeeId: e.target.value })}
+                                            required={addAsTeacher}
+                                            placeholder="EMP001"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Password *</label>
+                                        <input
+                                            type="password"
+                                            value={formData.password}
+                                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                            required={addAsTeacher}
+                                            placeholder="Minimum 6 characters"
+                                            minLength={6}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Name *</label>

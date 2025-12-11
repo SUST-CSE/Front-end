@@ -6,8 +6,8 @@
 }
 
 .footer {
-  background: #000;
-  color: var(--footer-text);
+  background: #EAC7C7;
+  color: #000;
   padding: 48px 6%;
   font-family: inherit;
 }
@@ -22,13 +22,13 @@
 }
 
 .footer h4 {
-  color: #fff;
+  color: #f44336;
   font-size: 1.05rem;
   margin-bottom: 12px;
 }
 
 .footer p {
-  color: var(--muted);
+  color: #000;
   font-size: 0.95rem;
   line-height: 1.5;
 }
@@ -43,9 +43,9 @@
   width: 36px;
   height: 36px;
   margin-right: 10px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 6px;
-  color: var(--footer-text);
+  color: #000;
   text-decoration: none;
 }
 
@@ -60,12 +60,12 @@
 }
 
 .footer .links a {
-  color: var(--muted);
+  color: #000;
   text-decoration: none;
 }
 
 .footer .links a:hover {
-  color: #fff;
+  color: #f44336;
 }
 
 .footer .contact p {
@@ -88,13 +88,13 @@
   flex: 1;
   padding: 10px 12px;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--footer-text);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+  color: #000;
 }
 
 .newsletter-form input::placeholder {
-  color: #9aa6bd;
+  color: #666;
 }
 
 .newsletter-form button {
@@ -109,7 +109,7 @@
 .footer-bottom {
   margin-top: 28px;
   text-align: center;
-  color: var(--muted);
+  color: #000;
   font-size: 0.9rem;
 }
 

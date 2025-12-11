@@ -13,9 +13,7 @@ const ManageCoursesModal = ({ isOpen, onClose }) => {
         code: '',
         title: '',
         credits: 3,
-        level: '1',
-        term: '1',
-        type: 'Theory',
+        level: 'Undergraduate',
         description: ''
     });
     const [editingId, setEditingId] = useState(null);
@@ -70,9 +68,7 @@ const ManageCoursesModal = ({ isOpen, onClose }) => {
             code: course.code || '',
             title: course.title || '',
             credits: course.credits || 3,
-            level: course.level || '1',
-            term: course.term || '1',
-            type: course.type || 'Theory',
+            level: course.level || 'Undergraduate',
             description: course.description || ''
         });
         setEditingId(course._id);
@@ -95,9 +91,7 @@ const ManageCoursesModal = ({ isOpen, onClose }) => {
             code: '',
             title: '',
             credits: 3,
-            level: '1',
-            term: '1',
-            type: 'Theory',
+            level: 'Undergraduate',
             description: ''
         });
         setEditingId(null);
@@ -109,8 +103,11 @@ const ManageCoursesModal = ({ isOpen, onClose }) => {
         { accessor: 'title', header: 'Course Title', sortable: true },
         { accessor: 'credits', header: 'Credits', sortable: true },
         { accessor: 'level', header: 'Level', sortable: true },
-        { accessor: 'term', header: 'Term', sortable: true },
-        { accessor: 'type', header: 'Type', sortable: true }
+        {
+            accessor: 'description',
+            header: 'Description',
+            render: (value) => value ? (value.length > 50 ? value.substring(0, 50) + '...' : value) : 'N/A'
+        }
     ];
 
     return (
@@ -174,35 +171,9 @@ const ManageCoursesModal = ({ isOpen, onClose }) => {
                                 onChange={(e) => setFormData({ ...formData, level: e.target.value })}
                                 required
                             >
-                                <option value="1">Level 1</option>
-                                <option value="2">Level 2</option>
-                                <option value="3">Level 3</option>
-                                <option value="4">Level 4</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label>Term *</label>
-                            <select
-                                value={formData.term}
-                                onChange={(e) => setFormData({ ...formData, term: e.target.value })}
-                                required
-                            >
-                                <option value="1">Term 1</option>
-                                <option value="2">Term 2</option>
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label>Type *</label>
-                            <select
-                                value={formData.type}
-                                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                required
-                            >
-                                <option value="Theory">Theory</option>
-                                <option value="Lab">Lab</option>
-                                <option value="Project">Project</option>
+                                <option value="Undergraduate">Undergraduate</option>
+                                <option value="M.Sc.">M.Sc.</option>
+                                <option value="Ph.D.">Ph.D.</option>
                             </select>
                         </div>
                     </div>
