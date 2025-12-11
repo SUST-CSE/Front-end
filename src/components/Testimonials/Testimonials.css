@@ -1,4 +1,4 @@
-/* Testimonials Section Styles */
+
 .testimonials {
   width: 80%;
   margin: auto;
@@ -54,7 +54,7 @@
   stroke-width: 1;
 }
 
-/* Responsive styles for smaller screens */
+
 @media (max-width: 768px) {
   .testimonial-col img {
     margin-left: 0px;

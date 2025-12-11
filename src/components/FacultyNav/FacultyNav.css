@@ -1,8 +1,7 @@
 .faculty-nav {
-  height:80vh;
+  height: 80vh;
   width: 100%;
-  background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)),
-    url(/images/faculty.jpg);
+  background-color: #000;
   background-position: top;
   background-size: cover;
   text-align: center;

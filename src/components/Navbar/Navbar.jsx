@@ -7,8 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faBars } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "/images/logo.png";
+import UserMenu from "../UserMenu/UserMenu";
 
-const Navbar = () => {
+const Navbar = ({ darkText }) => {
   const navLinkRef = useRef();
 
   const showMenu = () => {
@@ -24,13 +25,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
+    <nav className={darkText ? "dark-text" : ""}>
       <Link to="/">
         <img src={logo} alt="" />
       </Link>
 
       <div className="nav-links" id="navLinks" ref={navLinkRef}>
-        
+
         <FontAwesomeIcon icon={faTimes} className="fas" onClick={hideMenu} />
 
         <ul>
@@ -51,6 +52,8 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+
+      <UserMenu />
 
       <FontAwesomeIcon icon={faBars} className="fas" onClick={showMenu} />
     </nav>
