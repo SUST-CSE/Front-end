@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar/Navbar';
+import Subheader from '../components/Subheader/Subheader';
 import Footer from '../components/Footer/Footer';
-import teacherAuthService from '../api/services/teacherAuthService';
+import facultyService from '../api/services/facultyService';
 import './Faculty.css';
 
 const Faculty = () => {
@@ -15,7 +15,7 @@ const Faculty = () => {
 
   const fetchTeachers = async () => {
     try {
-      const response = await teacherAuthService.getApprovedTeachers();
+      const response = await facultyService.getFaculty();
       console.log(response)
       if (response.success) {
         setTeachers(response.data);
@@ -29,14 +29,9 @@ const Faculty = () => {
 
   return (
     <>
-      <Navbar darkText={true} />
+      <Subheader header="Our Faculty" backgroundImage="/images/faculty.jpg" />
       <div className="faculty-page">
-        <div className="faculty-hero">
-          <h1>Our Faculty</h1>
-          <p>Meet our distinguished faculty members</p>
-        </div>
-
-        <div className="container">
+        <div className="container" style={{ marginTop: '20px' }}>
           {loading ? (
             <div className="loading">Loading...</div>
           ) : error ? (

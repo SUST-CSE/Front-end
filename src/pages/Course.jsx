@@ -5,7 +5,7 @@ import Footer from "../components/Footer/Footer";
 const Course = () => {
   return (
     <>
-      <Subheader header="" />
+      <Subheader header="" backgroundImage="/images/certificate.jpg" />
       <Courses />
       <Footer />
     </>

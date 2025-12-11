@@ -10,11 +10,24 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     }
 
     if (allowedRoles) {
-        const userRole = user?.role?.toLowerCase();
+        // Check both 'role' (for admin) and 'userType' (for student/teacher)
+        const userRole = (user?.role || user?.userType)?.toLowerCase();
         const allowed = allowedRoles.map(r => r.toLowerCase());
+
+        // Debug logging to help troubleshoot
+        console.log('🔒 ProtectedRoute Check:', {
+            user: user,
+            userRole: userRole,
+            allowedRoles: allowed,
+            isAllowed: allowed.includes(userRole)
+        });
+
         if (!allowed.includes(userRole)) {
+            console.warn('❌ Access denied - redirecting to home');
             return <Navigate to="/" replace />;
         }
+
+        console.log('✅ Access granted');
     }
 
     return children;

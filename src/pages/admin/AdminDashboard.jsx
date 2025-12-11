@@ -9,9 +9,8 @@ import ManageCoursesModal from '../../components/admin/ManageCoursesModal';
 import ManageNewsModal from '../../components/admin/ManageNewsModal';
 import ManageNoticesModal from '../../components/admin/ManageNoticesModal';
 import ManageAdmissionsModal from '../../components/admin/ManageAdmissionsModal';
-// import StatisticsModal from '../../components/admin/StatisticsModal';
-
 import AssignAdvisorsModal from '../../components/admin/AssignAdvisorsModal';
+import AssignCourseModal from '../../components/admin/AssignCourseModal';
 import './Dashboard.css';
 
 const AdminDashboard = () => {
@@ -54,6 +53,12 @@ const AdminDashboard = () => {
                         <p>Create and edit course information</p>
                     </div>
 
+                    <div className="dashboard-card" onClick={() => setActiveModal('assign-courses')}>
+                        <div className="card-icon">📚</div>
+                        <h3>Assign Courses</h3>
+                        <p>Assign courses to teachers</p>
+                    </div>
+
                     <div className="dashboard-card" onClick={() => setActiveModal('news')}>
                         <div className="card-icon"></div>
                         <h3>Manage News</h3>
@@ -72,14 +77,6 @@ const AdminDashboard = () => {
                         <p>Manage admission information</p>
                     </div>
 
-                    {/* <div className="dashboard-card" onClick={() => setActiveModal('statistics')}>
-                        <div className="card-icon"></div>
-                        <h3>Statistics</h3>
-                        <p>View system statistics</p>
-                    </div> */}
-
-
-
                     <div className="dashboard-card" onClick={() => setActiveModal('advisors')}>
                         <div className="card-icon">‍</div>
                         <h3>Assign Advisors</h3>
@@ -93,11 +90,10 @@ const AdminDashboard = () => {
             <ManageStudentsModal isOpen={activeModal === 'students'} onClose={closeModal} />
             <ManageFacultyModal isOpen={activeModal === 'faculty'} onClose={closeModal} />
             <ManageCoursesModal isOpen={activeModal === 'courses'} onClose={closeModal} />
+            <AssignCourseModal isOpen={activeModal === 'assign-courses'} onClose={closeModal} />
             <ManageNewsModal isOpen={activeModal === 'news'} onClose={closeModal} />
             <ManageNoticesModal isOpen={activeModal === 'notices'} onClose={closeModal} />
             <ManageAdmissionsModal isOpen={activeModal === 'admissions'} onClose={closeModal} />
-            {/* <StatisticsModal isOpen={activeModal === 'statistics'} onClose={closeModal} /> */}
-
             <AssignAdvisorsModal isOpen={activeModal === 'advisors'} onClose={closeModal} />
         </>
     );

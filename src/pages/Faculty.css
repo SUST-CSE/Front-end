@@ -2,22 +2,32 @@
   padding-bottom: 50px;
 }
 
-.faculty-hero {
-  background-color: #f5f5f5;
-  padding: 60px 20px;
+.faculty-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin: 40px 0;
+  background: white;
 }
 
-.faculty-hero h1 {
+.faculty-header h1 {
+  display: inline-block;
+  color: #000;
   font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  padding-bottom: 15px;
 }
 
-.faculty-hero p {
-  color: #666;
-  font-size: 1.1rem;
+.faculty-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background-color: #dc143c;
 }
 
 .container {
@@ -36,7 +46,7 @@
   background: white;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
@@ -45,13 +55,16 @@
 }
 
 .teacher-image {
-  height: 280px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background-color: #eee;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+
 
 .teacher-image img {
   width: 100%;
@@ -93,7 +106,8 @@
   font-size: 0.85rem;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 40px;
   font-size: 1.2rem;

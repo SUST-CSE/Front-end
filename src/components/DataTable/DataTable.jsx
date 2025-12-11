@@ -7,6 +7,9 @@ const DataTable = ({
     onEdit,
     onDelete,
     onView,
+    customActions,
+    editButtonText = 'Edit',
+    deleteButtonText = 'Delete',
     loading = false,
     emptyMessage = 'No data available',
     searchable = true,
@@ -101,7 +104,7 @@ const DataTable = ({
                                         )}
                                     </th>
                                 ))}
-                                {(onEdit || onDelete || onView) && <th>Actions</th>}
+                                {(onEdit || onDelete || onView || customActions) && <th>Actions</th>}
                             </tr>
                         </thead>
                         <tbody>
@@ -114,11 +117,12 @@ const DataTable = ({
                                                 : getCellValue(item, col.accessor)}
                                         </td>
                                     ))}
-                                    {(onEdit || onDelete || onView) && (
+                                    {(onEdit || onDelete || onView || customActions) && (
                                         <td className="actions">
                                             {onView && <button onClick={() => onView(item)} className="btn-view">View</button>}
-                                            {onEdit && <button onClick={() => onEdit(item)} className="btn-edit">Edit</button>}
-                                            {onDelete && <button onClick={() => onDelete(item)} className="btn-delete">Delete</button>}
+                                            {onEdit && <button onClick={() => onEdit(item)} className="btn-edit">{editButtonText}</button>}
+                                            {onDelete && <button onClick={() => onDelete(item)} className="btn-delete">{deleteButtonText}</button>}
+                                            {customActions && customActions(item)}
                                         </td>
                                     )}
                                 </tr>

@@ -14,6 +14,11 @@ const adminService = {
     deleteRegistration: async (id) => {
         const response = await apiClient.delete(`/admin/registrations/${id}`);
         return response.data;
+    },
+
+    approveTeacher: async (id) => {
+        const response = await apiClient.patch(`/auth/teacher/${id}/approve`);
+        return response.data;
     }
 };
 

@@ -26,16 +26,12 @@ const StudentDashboard = () => {
                 </div>
 
                 <div className="dashboard-grid">
-                    <Link to="/student/profile" className="dashboard-card">
-                        <div className="card-icon"></div>
-                        <h3>My Profile</h3>
-                        <p>View and update your profile</p>
-                    </Link>
+
 
                     <div className="dashboard-card" onClick={() => setActiveModal('results')}>
                         <div className="card-icon"></div>
                         <h3>My Results</h3>
-                        <p>View your exam results</p>
+                        <p>Download result files from teachers</p>
                     </div>
 
                     <div className="dashboard-card" onClick={() => setActiveModal('advisor')}>
@@ -58,14 +54,14 @@ const StudentDashboard = () => {
 
                     <div className="dashboard-card" onClick={() => setActiveModal('courses')}>
                         <div className="card-icon"></div>
-                        <h3>Courses</h3>
-                        <p>View course information</p>
+                        <h3>My Courses</h3>
+                        <p>View enrolled courses & request new courses</p>
                     </div>
                 </div>
             </div>
             <Footer />
 
-            {}
+            { }
             <MyResultsModal isOpen={activeModal === 'results'} onClose={closeModal} />
             <MyAdvisorModal isOpen={activeModal === 'advisor'} onClose={closeModal} />
             <NoticesModal isOpen={activeModal === 'notices'} onClose={closeModal} />
