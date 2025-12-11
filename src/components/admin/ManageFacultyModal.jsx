@@ -35,7 +35,7 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
     const fetchFaculty = async () => {
         setLoading(true);
         try {
-            const response = await teacherAuthService.getApprovedTeachers();
+            const response = await facultyService.getFaculty();
             if (response.success) {
                 setFaculty(response.data);
             }
@@ -74,7 +74,26 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
             resetForm();
             fetchFaculty();
         } catch (err) {
-            setError(err.message || 'Failed to save faculty');
+            // Handle specific error messages
+            let errorMessage = 'Failed to save faculty';
+
+            if (err.response?.data?.message) {
+                errorMessage = err.response.data.message;
+            } else if (err.response?.status === 400) {
+                // Check if it's a duplicate email error
+                if (err.response?.data?.error?.includes('E11000') || err.response?.data?.error?.includes('duplicate')) {
+                    errorMessage = 'A faculty member with this email already exists. Please use a different email.';
+                } else if (err.response?.data?.error?.includes('email')) {
+                    errorMessage = 'Invalid email address or email already exists.';
+                } else {
+                    errorMessage = err.response.data.error || 'Validation failed. Please check your input.';
+                }
+            } else if (err.message) {
+                errorMessage = err.message;
+            }
+
+            setError(errorMessage);
+            alert(errorMessage); // Show popup message
         } finally {
             setSubmitting(false);
         }
@@ -130,21 +149,21 @@ const ManageFacultyModal = ({ isOpen, onClose }) => {
     };
 
     const facultyColumns = [
-        { key: 'name', label: 'Name', sortable: true },
-        { key: 'designation', label: 'Designation', sortable: true },
-        { key: 'email', label: 'Email', sortable: false },
-        { key: 'phone', label: 'Phone', sortable: false },
-        { key: 'officeRoom', label: 'Office', sortable: false }
+        { accessor: 'name', header: 'Name', sortable: true },
+        { accessor: 'designation', header: 'Designation', sortable: true },
+        { accessor: 'email', header: 'Email', sortable: false },
+        { accessor: 'phone', header: 'Phone', sortable: false },
+        { accessor: 'officeRoom', header: 'Office', sortable: false }
     ];
 
     const teacherColumns = [
-        { key: 'name', label: 'Name', sortable: true },
-        { key: 'email', label: 'Email', sortable: false },
-        { key: 'designation', label: 'Designation', sortable: true },
-        { key: 'department', label: 'Department', sortable: true },
+        { accessor: 'name', header: 'Name', sortable: true },
+        { accessor: 'email', header: 'Email', sortable: false },
+        { accessor: 'designation', header: 'Designation', sortable: true },
+        { accessor: 'department', header: 'Department', sortable: true },
         {
-            key: 'createdAt',
-            label: 'Requested',
+            accessor: 'createdAt',
+            header: 'Requested',
             render: (value) => new Date(value).toLocaleDateString()
         }
     ];

@@ -9,7 +9,8 @@ import ManageCoursesModal from '../../components/admin/ManageCoursesModal';
 import ManageNewsModal from '../../components/admin/ManageNewsModal';
 import ManageNoticesModal from '../../components/admin/ManageNoticesModal';
 import ManageAdmissionsModal from '../../components/admin/ManageAdmissionsModal';
-import StatisticsModal from '../../components/admin/StatisticsModal';
+// import StatisticsModal from '../../components/admin/StatisticsModal';
+
 import AssignAdvisorsModal from '../../components/admin/AssignAdvisorsModal';
 import './Dashboard.css';
 
@@ -71,11 +72,13 @@ const AdminDashboard = () => {
                         <p>Manage admission information</p>
                     </div>
 
-                    <div className="dashboard-card" onClick={() => setActiveModal('statistics')}>
+                    {/* <div className="dashboard-card" onClick={() => setActiveModal('statistics')}>
                         <div className="card-icon"></div>
                         <h3>Statistics</h3>
                         <p>View system statistics</p>
-                    </div>
+                    </div> */}
+
+
 
                     <div className="dashboard-card" onClick={() => setActiveModal('advisors')}>
                         <div className="card-icon">‍</div>
@@ -86,14 +89,15 @@ const AdminDashboard = () => {
             </div>
             <Footer />
 
-            {}
+            { }
             <ManageStudentsModal isOpen={activeModal === 'students'} onClose={closeModal} />
             <ManageFacultyModal isOpen={activeModal === 'faculty'} onClose={closeModal} />
             <ManageCoursesModal isOpen={activeModal === 'courses'} onClose={closeModal} />
             <ManageNewsModal isOpen={activeModal === 'news'} onClose={closeModal} />
             <ManageNoticesModal isOpen={activeModal === 'notices'} onClose={closeModal} />
             <ManageAdmissionsModal isOpen={activeModal === 'admissions'} onClose={closeModal} />
-            <StatisticsModal isOpen={activeModal === 'statistics'} onClose={closeModal} />
+            {/* <StatisticsModal isOpen={activeModal === 'statistics'} onClose={closeModal} /> */}
+
             <AssignAdvisorsModal isOpen={activeModal === 'advisors'} onClose={closeModal} />
         </>
     );

@@ -1,5 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL || 'http://localhost:5000/uploads';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL || 'http://localhost:5001/uploads';
 
 const ROLES = {
     ADMIN: 'admin',

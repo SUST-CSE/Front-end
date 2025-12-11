@@ -105,12 +105,12 @@ const ManageCoursesModal = ({ isOpen, onClose }) => {
     };
 
     const columns = [
-        { key: 'code', label: 'Course Code', sortable: true },
-        { key: 'title', label: 'Course Title', sortable: true },
-        { key: 'credits', label: 'Credits', sortable: true },
-        { key: 'level', label: 'Level', sortable: true },
-        { key: 'term', label: 'Term', sortable: true },
-        { key: 'type', label: 'Type', sortable: true }
+        { accessor: 'code', header: 'Course Code', sortable: true },
+        { accessor: 'title', header: 'Course Title', sortable: true },
+        { accessor: 'credits', header: 'Credits', sortable: true },
+        { accessor: 'level', header: 'Level', sortable: true },
+        { accessor: 'term', header: 'Term', sortable: true },
+        { accessor: 'type', header: 'Type', sortable: true }
     ];
 
     return (

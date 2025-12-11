@@ -96,22 +96,22 @@ const ManageNoticesModal = ({ isOpen, onClose }) => {
     };
 
     const columns = [
-        { key: 'title', label: 'Title', sortable: true },
+        { accessor: 'title', header: 'Title', sortable: true },
         {
-            key: 'type',
-            label: 'Type',
+            accessor: 'type',
+            header: 'Type',
             sortable: true,
             render: (value) => <span style={{ textTransform: 'capitalize' }}>{value}</span>
         },
         {
-            key: 'targetAudience',
-            label: 'Audience',
+            accessor: 'targetAudience',
+            header: 'Audience',
             sortable: true,
             render: (value) => <span style={{ textTransform: 'capitalize' }}>{value}</span>
         },
         {
-            key: 'createdAt',
-            label: 'Posted',
+            accessor: 'createdAt',
+            header: 'Posted',
             sortable: true,
             render: (value) => new Date(value).toLocaleDateString()
         }

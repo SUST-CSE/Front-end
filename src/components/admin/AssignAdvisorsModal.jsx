@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from '../Modal/Modal';
 import advisorService from '../../api/services/advisorService';
-import teacherAuthService from '../../api/services/teacherAuthService';
+import facultyService from '../../api/services/facultyService';
 import './AdminModals.css';
 
 const AssignAdvisorsModal = ({ isOpen, onClose }) => {
@@ -23,7 +23,7 @@ const AssignAdvisorsModal = ({ isOpen, onClose }) => {
 
     const fetchTeachers = async () => {
         try {
-            const response = await teacherAuthService.getApprovedTeachers();
+            const response = await facultyService.getFaculty();
             if (response.success) {
                 setTeachers(response.data || []);
             }
