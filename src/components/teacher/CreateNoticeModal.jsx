@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '../Modal/Modal';
 import noticeService from '../../api/services/noticeService';
+import courseService from '../../api/services/courseService';
 import '../admin/AdminModals.css';
 
 const CreateNoticeModal = ({ isOpen, onClose }) => {
@@ -8,27 +9,83 @@ const CreateNoticeModal = ({ isOpen, onClose }) => {
         title: '',
         content: '',
         type: 'announcement',
-        targetAudience: 'all'
+        targetType: 'all',
+        targetCourseId: '',
+        targetStudentRegistration: ''
     });
+    const [courses, setCourses] = useState([]);
+    const [loadingCourses, setLoadingCourses] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) {
+            fetchTeacherCourses();
+        }
+    }, [isOpen]);
+
+    const fetchTeacherCourses = async () => {
+        setLoadingCourses(true);
+        try {
+            const response = await courseService.getCourses();
+            if (response.success) {
+                // Filter only courses that have a teacher assigned (the logged in teacher)
+                const teacherCourses = response.data.filter(course => course.teacherId);
+                setCourses(teacherCourses);
+            }
+        } catch (err) {
+            console.error('Error fetching courses:', err);
+        } finally {
+            setLoadingCourses(false);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitting(true);
         setError('');
-        console.log("Testing notice modal")
+
         try {
-            const response = await noticeService.createNotice(formData);
-            console.log(response)
+            // Prepare data
+            const dataToSubmit = {
+                title: formData.title,
+                content: formData.content,
+                type: formData.type,
+                targetType: formData.targetType
+            };
+
+            // Add course ID if course-specific
+            if (formData.targetType === 'course') {
+                if (!formData.targetCourseId) {
+                    setError('Please select a course');
+                    setSubmitting(false);
+                    return;
+                }
+                dataToSubmit.targetCourseId = formData.targetCourseId;
+            }
+
+            // Add student registration if individual student
+            if (formData.targetType === 'student') {
+                if (!formData.targetStudentRegistration) {
+                    setError('Please enter student registration number');
+                    setSubmitting(false);
+                    return;
+                }
+                dataToSubmit.targetStudentRegistration = formData.targetStudentRegistration;
+            }
+
+            const response = await noticeService.createNotice(dataToSubmit);
+
             if (response.success) {
                 setSuccess(true);
                 setFormData({
                     title: '',
                     content: '',
                     type: 'announcement',
-                    targetAudience: 'all'
+                    targetType: 'all',
+                    targetCourseId: '',
+                    targetStudentRegistration: ''
                 });
                 setTimeout(() => {
                     onClose();
@@ -36,7 +93,8 @@ const CreateNoticeModal = ({ isOpen, onClose }) => {
                 }, 1500);
             }
         } catch (err) {
-            setError(err.message || 'Failed to create notice');
+            const errorMsg = err.response?.data?.message || err.message || 'Failed to create notice';
+            setError(errorMsg);
         } finally {
             setSubmitting(false);
         }
@@ -79,18 +137,78 @@ const CreateNoticeModal = ({ isOpen, onClose }) => {
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Target Audience *</label>
+                        <label>Send To *</label>
                         <select
-                            value={formData.targetAudience}
-                            onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value })}
+                            value={formData.targetType}
+                            onChange={(e) => setFormData({
+                                ...formData,
+                                targetType: e.target.value,
+                                targetCourseId: '',
+                                targetStudentRegistration: ''
+                            })}
                             required
                         >
-                            <option value="all">All</option>
-                            <option value="session">Session Specific</option>
-                            <option value="batch">Batch Specific</option>
+                            <option value="all">All Students</option>
+                            <option value="course">Course Students</option>
+                            <option value="student">Individual Student</option>
                         </select>
                     </div>
                 </div>
+
+                {/* Course Selection (when targetType is 'course') */}
+                {formData.targetType === 'course' && (
+                    <div className="form-group">
+                        <label>Select Course *</label>
+                        {loadingCourses ? (
+                            <div style={{ padding: '10px', color: '#666' }}>Loading courses...</div>
+                        ) : (
+                            <select
+                                value={formData.targetCourseId}
+                                onChange={(e) => setFormData({ ...formData, targetCourseId: e.target.value })}
+                                required
+                            >
+                                <option value="">-- Select a course --</option>
+                                {courses.map(course => (
+                                    <option key={course._id} value={course._id}>
+                                        {course.code} - {course.title}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
+                )}
+
+                {/* Registration Number Input (when targetType is 'student') */}
+                {formData.targetType === 'student' && (
+                    <div className="form-group">
+                        <label>Student Registration Number *</label>
+                        <input
+                            type="text"
+                            value={formData.targetStudentRegistration}
+                            onChange={(e) => setFormData({ ...formData, targetStudentRegistration: e.target.value })}
+                            placeholder="e.g., 2021331006"
+                            required
+                        />
+                    </div>
+                )}
+
+                {/* Info Box */}
+                {formData.targetType !== 'all' && (
+                    <div style={{
+                        padding: '12px',
+                        backgroundColor: '#e3f2fd',
+                        borderRadius: '4px',
+                        marginBottom: '16px',
+                        fontSize: '13px',
+                        color: '#1976d2'
+                    }}>
+                        <strong>ℹ️ Targeting:</strong> This notice will only be visible to {
+                            formData.targetType === 'course'
+                                ? 'students enrolled in the selected course'
+                                : 'the specified student'
+                        }.
+                    </div>
+                )}
 
                 <div className="form-group">
                     <label>Content *</label>

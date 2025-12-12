@@ -4,9 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import useStore from '../../zustand/store';
 import MyResultsModal from '../../components/student/MyResultsModal';
-import MyAdvisorModal from '../../components/student/MyAdvisorModal';
 import NoticesModal from '../../components/student/NoticesModal';
-import SubmitFeedbackModal from '../../components/student/SubmitFeedbackModal';
 import CoursesModal from '../../components/student/CoursesModal';
 import './Dashboard.css';
 
@@ -34,22 +32,10 @@ const StudentDashboard = () => {
                         <p>Download result files from teachers</p>
                     </div>
 
-                    <div className="dashboard-card" onClick={() => setActiveModal('advisor')}>
-                        <div className="card-icon">‍</div>
-                        <h3>My Advisor</h3>
-                        <p>View your assigned advisor</p>
-                    </div>
-
                     <div className="dashboard-card" onClick={() => setActiveModal('notices')}>
                         <div className="card-icon"></div>
                         <h3>Notices</h3>
                         <p>View important notices</p>
-                    </div>
-
-                    <div className="dashboard-card" onClick={() => setActiveModal('feedback')}>
-                        <div className="card-icon"></div>
-                        <h3>Submit Feedback</h3>
-                        <p>Provide course feedback</p>
                     </div>
 
                     <div className="dashboard-card" onClick={() => setActiveModal('courses')}>
@@ -63,9 +49,7 @@ const StudentDashboard = () => {
 
             { }
             <MyResultsModal isOpen={activeModal === 'results'} onClose={closeModal} />
-            <MyAdvisorModal isOpen={activeModal === 'advisor'} onClose={closeModal} />
             <NoticesModal isOpen={activeModal === 'notices'} onClose={closeModal} />
-            <SubmitFeedbackModal isOpen={activeModal === 'feedback'} onClose={closeModal} />
             <CoursesModal isOpen={activeModal === 'courses'} onClose={closeModal} />
         </>
     );

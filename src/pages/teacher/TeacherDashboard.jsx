@@ -7,7 +7,6 @@ import CreateNoticeModal from '../../components/teacher/CreateNoticeModal';
 import UploadResultsModal from '../../components/teacher/UploadResultsModal';
 import MyCoursesModal from '../../components/teacher/MyCoursesModal';
 import StudentsModal from '../../components/teacher/StudentsModal';
-import MyAdviseesModal from '../../components/teacher/MyAdviseesModal';
 import EnrollmentRequestsModal from '../../components/teacher/EnrollmentRequestsModal';
 import './Dashboard.css';
 
@@ -59,11 +58,6 @@ const TeacherDashboard = () => {
                         <p>View students enrolled in your courses</p>
                     </div>
 
-                    <div className="dashboard-card" onClick={() => setActiveModal('advisees')}>
-                        <div className="card-icon"></div>
-                        <h3>My Advisees</h3>
-                        <p>View assigned students</p>
-                    </div>
                 </div>
             </div>
             <Footer />
@@ -74,7 +68,6 @@ const TeacherDashboard = () => {
             <UploadResultsModal isOpen={activeModal === 'results'} onClose={closeModal} />
             <MyCoursesModal isOpen={activeModal === 'courses'} onClose={closeModal} />
             <StudentsModal isOpen={activeModal === 'students'} onClose={closeModal} />
-            <MyAdviseesModal isOpen={activeModal === 'advisees'} onClose={closeModal} />
         </>
     );
 };

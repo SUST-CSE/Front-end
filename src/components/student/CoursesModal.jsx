@@ -45,7 +45,7 @@ const CoursesModal = ({ isOpen, onClose }) => {
         try {
             const response = await courseService.getCourses();
             if (response.success) {
-                // Filter courses that have enrollment open
+                // Filter courses that have enrollment open and assigned teachers
                 const openCourses = response.data.filter(course =>
                     course.isEnrollmentOpen !== false && course.teacherId
                 );

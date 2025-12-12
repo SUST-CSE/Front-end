@@ -54,12 +54,25 @@ const MyResultsModal = ({ isOpen, onClose }) => {
         {
             header: 'Semester',
             accessor: 'semester',
-            sortable: true
+            sortable: true,
+            render: (value) => `Semester ${value}`
         },
         {
             header: 'File Type',
             accessor: 'fileType',
-            render: (value) => value?.toUpperCase() || 'N/A'
+            render: (value) => (
+                <span style={{
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    backgroundColor: value === 'pdf' ? '#dc3545' : '#28a745',
+                    color: 'white',
+                    fontSize: '11px',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase'
+                }}>
+                    {value === 'pdf' ? '📄 PDF' : '📊 Excel'}
+                </span>
+            )
         },
         {
             header: 'Uploaded By',

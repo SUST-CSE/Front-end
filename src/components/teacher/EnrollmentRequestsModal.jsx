@@ -102,7 +102,7 @@ ${enrollment.rejectedAt ? `Rejected: ${new Date(enrollment.rejectedAt).toLocaleS
         {
             header: 'Registration No.',
             accessor: 'studentId.registrationNumber',
-            render: (value, row) => row.studentId?.registrationNumber || 'N/A',
+            render: (value, row) => row.studentId?.registrationId || 'N/A',
         },
         {
             header: 'Course Code',

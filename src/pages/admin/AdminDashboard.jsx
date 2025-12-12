@@ -8,8 +8,6 @@ import ManageFacultyModal from '../../components/admin/ManageFacultyModal';
 import ManageCoursesModal from '../../components/admin/ManageCoursesModal';
 import ManageNewsModal from '../../components/admin/ManageNewsModal';
 import ManageNoticesModal from '../../components/admin/ManageNoticesModal';
-import ManageAdmissionsModal from '../../components/admin/ManageAdmissionsModal';
-import AssignAdvisorsModal from '../../components/admin/AssignAdvisorsModal';
 import AssignCourseModal from '../../components/admin/AssignCourseModal';
 import './Dashboard.css';
 
@@ -42,7 +40,7 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="dashboard-card" onClick={() => setActiveModal('faculty')}>
-                        <div className="card-icon">‍</div>
+                        <div className="card-icon"></div>
                         <h3>Manage Faculty</h3>
                         <p>Add and manage faculty members</p>
                     </div>
@@ -54,7 +52,7 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="dashboard-card" onClick={() => setActiveModal('assign-courses')}>
-                        <div className="card-icon">📚</div>
+                        <div className="card-icon"></div>
                         <h3>Assign Courses</h3>
                         <p>Assign courses to teachers</p>
                     </div>
@@ -70,18 +68,6 @@ const AdminDashboard = () => {
                         <h3>Manage Notices</h3>
                         <p>Create and publish notices</p>
                     </div>
-
-                    <div className="dashboard-card" onClick={() => setActiveModal('admissions')}>
-                        <div className="card-icon"></div>
-                        <h3>Admissions</h3>
-                        <p>Manage admission information</p>
-                    </div>
-
-                    <div className="dashboard-card" onClick={() => setActiveModal('advisors')}>
-                        <div className="card-icon">‍</div>
-                        <h3>Assign Advisors</h3>
-                        <p>Assign advisors to student batches</p>
-                    </div>
                 </div>
             </div>
             <Footer />
@@ -93,8 +79,6 @@ const AdminDashboard = () => {
             <AssignCourseModal isOpen={activeModal === 'assign-courses'} onClose={closeModal} />
             <ManageNewsModal isOpen={activeModal === 'news'} onClose={closeModal} />
             <ManageNoticesModal isOpen={activeModal === 'notices'} onClose={closeModal} />
-            <ManageAdmissionsModal isOpen={activeModal === 'admissions'} onClose={closeModal} />
-            <AssignAdvisorsModal isOpen={activeModal === 'advisors'} onClose={closeModal} />
         </>
     );
 };

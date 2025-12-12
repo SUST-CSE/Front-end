@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import Modal from '../Modal/Modal';
 import DataTable from '../DataTable/DataTable';
 import noticeService from '../../api/services/noticeService';
-import useStore from '../../zustand/store';
 import '../admin/AdminModals.css';
 
 const NoticesModal = ({ isOpen, onClose }) => {
-    const { user } = useStore();
     const [notices, setNotices] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -21,36 +19,62 @@ const NoticesModal = ({ isOpen, onClose }) => {
     const fetchNotices = async () => {
         setLoading(true);
         setError('');
-        console.log("Notice modal check")
         try {
-            const filters = filterType !== 'all' ? { type: filterType } : {};
+            // Build filters - backend handles student filtering automatically
+            const filters = {};
+
+            // Add type filter if not 'all'
+            if (filterType !== 'all') {
+                filters.type = filterType;
+            }
+
             const response = await noticeService.getNotices(filters);
-            console.log(response);
+
             if (response.success) {
                 setNotices(response.data);
             }
         } catch (err) {
             setError('Failed to load notices');
+            console.error('Error fetching notices:', err);
         } finally {
             setLoading(false);
         }
     };
 
     const handleView = (notice) => {
-        alert(`${notice.title}\n\n${notice.content}\n\nPosted: ${new Date(notice.createdAt).toLocaleString()}`);
+        let targetInfo = 'All Students';
+        if (notice.targetType === 'course' && notice.targetCourseId) {
+            targetInfo = `Course: ${notice.targetCourseId.code} - ${notice.targetCourseId.title}`;
+        } else if (notice.targetType === 'student' && notice.targetStudentId) {
+            targetInfo = `Individual: ${notice.targetStudentId.name} (${notice.targetStudentId.registrationId})`;
+        }
+
+        alert(`${notice.title}\n\n${notice.content}\n\nTarget: ${targetInfo}\nPosted: ${new Date(notice.createdAt).toLocaleString()}`);
     };
 
     const columns = [
-        { key: 'title', label: 'Title', sortable: true },
+        { accessor: 'title', header: 'Title', sortable: true },
         {
-            key: 'type',
-            label: 'Type',
+            accessor: 'type',
+            header: 'Type',
             sortable: true,
             render: (value) => <span style={{ textTransform: 'capitalize' }}>{value}</span>
         },
         {
-            key: 'createdAt',
-            label: 'Posted',
+            accessor: 'targetType',
+            header: 'For',
+            render: (value, row) => {
+                if (value === 'all') return '🌐 All';
+                if (value === 'course' && row.targetCourseId) {
+                    return `📚 ${row.targetCourseId.code}`;
+                }
+                if (value === 'student') return '👤 You';
+                return '-';
+            }
+        },
+        {
+            accessor: 'createdAt',
+            header: 'Posted',
             sortable: true,
             render: (value) => new Date(value).toLocaleDateString()
         }
